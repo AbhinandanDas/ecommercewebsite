@@ -1,5 +1,5 @@
 from django.contrib.auth.models import (AbstractBaseUser,BaseUserManager, PermissionsMixin)
-from django_countries import CountryField
+from django_countries.fields import CountryField
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _ # Todo: Need to setup for localisation. 
