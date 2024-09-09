@@ -1,6 +1,6 @@
 from django import forms 
 from .models import UserBase
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import (AuthenticationForm,PasswordResetForm,SetPasswordForm)
 
 class UserLoginForm(AuthenticationForm): 
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control mb-3','placeholder':'Username','id':'login-username'}))
@@ -54,3 +54,59 @@ class RegistrationForm(forms.ModelForm):
             {'class': 'form-control mb-3', 'placeholder': 'Password'})
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Repeat Password'})
+
+#Update the user details. 
+class UserEditForm(forms.ModelForm):
+    email = forms.EmailField(label='Account Email cannot be changed',max_length=200,widget=forms.TextInput(attrs={
+        'class':'form-control mb-3',
+        'placeholder':'email',
+        'id':'form-email',
+        'readonly':'readonly'
+    }))
+
+    # user_name = forms.CharField(label='Firstname',min_length=4,max_length=50,widget=forms.TextInput(attrs={
+    #     'class':'form-control mb-3',
+    #     'placeholder':'username',
+    #     'id':'form-firstname',
+    #     'readonly':'readonly'
+    # }))
+    first_name = forms.CharField(label='first name',min_length=4,max_length=50,widget=forms.TextInput(attrs={
+        'class':'form-control mb-3',
+        'placeholder':'firstname',
+        'id':'form-fistname'
+    }))
+
+    class Meta: 
+        model = UserBase 
+        fields = ('email','first_name',)
+
+    def __init__(self,*args,**kwargs): 
+        super().__init__(*args,**kwargs)
+        self.fields['first_name'].required=True
+        self.fields['email'].required=True
+
+class PwdResetForm(PasswordResetForm):
+    email = forms.EmailField(max_length=254,widget=forms.TextInput(attrs={
+        'class':'form-control mb-3',
+        'placeholder':'Email',
+        'id':'form-email'
+        }))
+    def clean_data(self): 
+        email = self.cleaned_data['email']
+        u = UserBase.objects.get(email=email)
+        if not u:
+            raise forms.ValidationError(
+                'Unfortunately we can not find that email address')
+        return email    
+
+class PwdResetConfirmForm(SetPasswordForm): 
+    new_password1 = forms.CharField(label='New Password',widget=forms.PasswordInput(attrs={
+        'class':'form-control mb-3',
+        'placeholder': 'Enter Password',
+        'id': 'form-newpass'
+    }))
+    new_password2 = forms.CharField(label='Repeat Password',widget=forms.PasswordInput(attrs={
+            'class':'form-control mb-3',
+            'placeholder': 'Repeat Password',
+            'id': 'form-newpass2'
+        }))

@@ -5,7 +5,7 @@ from django.shortcuts import redirect,render
 from django.contrib.sites.shortcuts import get_current_site
 from django.test import TestCase
 from django.template.loader import render_to_string
-from .forms import RegistrationForm
+from .forms import RegistrationForm,UserEditForm
 from django.utils.encoding import force_bytes,force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from .models import UserBase
@@ -16,6 +16,32 @@ from .token import account_activation_token
 @login_required
 def dashboard(request): 
     return render(request,'account/user/dashboard.html')
+
+
+@login_required
+def user_logout(request): 
+    logout(request)
+    return render(request,'account/registration/logout.html')
+
+@login_required
+def edit_details(request): 
+    if request.method == 'POST': 
+        user_form = UserEditForm(instance=request.user,data=request.POST)
+
+        if user_form.is_valid(): 
+            user_form.save()
+    else: 
+        user_form = UserEditForm(instance=request.user)
+
+    return render(request,'account/user/edit_details.html',{'user_form': user_form})    
+
+@login_required
+def delete_user(request): 
+    user = UserBase.objects.get(user_name=request.user)
+    user.is_active=False
+    user.save()
+    logout(request)
+    return redirect('account:delete_confirmation')
 
 def account_register(request): 
     #check if user is logged in. 
