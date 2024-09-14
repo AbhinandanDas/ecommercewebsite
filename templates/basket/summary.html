@@ -1,4 +1,4 @@
-{% extends "../store/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block title %}Basket Summary{% endblock %}
 {% block content %}
@@ -14,8 +14,10 @@
     <hr />
   </div>
   <div class="container" style="max-width: 1000px">
-    
     <div class="row g-3">
+      {% if basket|length == 0 %}
+      <div class="empty-basket">No items have been added. Continue shopping at <a href="{% url 'store:store_home' %}">Shop Now</a></div>
+      {% else %}
       <div class="col-12 bg-light p-3 d-flex justify-content-between">
         <div class="d-flex d-flex-inline">
           <div class="pe-3">Order</div>
@@ -80,6 +82,7 @@
         {% endwith %} 
         {% endfor %}
       </div>
+      {% endif %}
     </div>
     
   </div>
@@ -100,8 +103,12 @@
                 action: 'post'
             },
             success: function(json) {
+                //UI Update to remove item from the cart.
                 $('.product-item[data-index="' + prodid + '"]').remove();
+                // TODO: Display empty page and allow user to go to home page. 
                 if(json.qty == 0) {
+                  //$('.empty-basket').html(No items have been added. Continue shopping at);
+                  
                   total = 0
                   subtotal = 0
                 }
@@ -111,7 +118,7 @@
                 }
                 document.getElementById("subtotal").innerHTML = subtotal;
                 document.getElementById("total").innerHTML = total;
-                document.getElementById("basket-qty").innerHTML = json.qty
+                document.getElementById("basket-qty").innerHTML = json.qtys
             },
             error: function(xhr, errmsg, err){}
         });

@@ -18,6 +18,7 @@
     }
 </style>
 
+
 <div class="container-fluid">
     <div class="row no-gutter">
         <div class="col-md-12">
@@ -26,9 +27,13 @@
                     <div class="row">
                         <div class="col-12 col-lg-6  mx-auto">
                             <div class="p-4">
-                                <h3 class="mb-4">Order has been placed</h3>
-                                <p>Check your email for confirmation</p>
-                                <a href="{% url "account:dashboard" %}">See orders</a>
+                                {% if 'email' in request.get_full_path %}
+                                    <h3 class="mb-3">Steps to reset password has been shared in email, Please check your mail to reset your password</h3>
+                                {% endif %}
+                                {% if 'complete' in request.get_full_path %}
+                                    <h3 class="mb-4">Password Reset Successful</h3>
+                                    <a href="{% url "account:login" %}">Login</a>
+                                {% endif %}
                             </div>       
                         </div>
                     </div>
