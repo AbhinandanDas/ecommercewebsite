@@ -106,7 +106,7 @@ LOGIN_URL = '/account/login/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Stripe Payment
-PUBLISHABLE_KEY = 'pk_test_51PwI262KjvVWWPPo1SRTXFyi7DDthN9LW3AOvFYW0hBDntwEdBa9B6TRuqcVs2NawLHYSFFK2KXEGMFr4oc3HyD800BsHmHkm5'
+os.environ.setdefault('STRIPE_PUBLISHABLE_KEY', 'pk_test_51PwI262KjvVWWPPo1SRTXFyi7DDthN9LW3AOvFYW0hBDntwEdBa9B6TRuqcVs2NawLHYSFFK2KXEGMFr4oc3HyD800BsHmHkm5')
 SECRET_KEY = 'sk_test_51PwI262KjvVWWPPokhq8qTod2TTL6SvG591IPkumNqkUFcFFu4RYWhy8M5VMrztwmf1DbxHa6Lu14nF3x8ODWr3j00g98Wweec'
 STRIPE_ENDPOINT_SECRET = 'whsec_31c15dcf672c817887e6eb359ca668cf44881abd236696adc438b6bbc245bc72'
 #stripe listen --forward-to localhost:8000/payment/webhook/
