@@ -1,2 +1,3 @@
 #ignore the local virtual dev file. 
 /venv/
+/_documentation/

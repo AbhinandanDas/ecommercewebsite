@@ -1,0 +1,2 @@
+1. Store all the current dependencies, and create a requirments.txt file. 
+pip freeze > requirements.txt

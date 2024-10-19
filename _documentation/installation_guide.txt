@@ -1,0 +1,12 @@
+Step 1: Install the virtual environment in your local.
+py -m venv <name of the virtual environment>
+
+Step 2: pip install <dependency name> from packages.txt from packages.txt file.  
+
+Step 3: Run the Sripe payment webook in one terminal. 
+        stripe listen --forward-to localhost:8000/payment/webhook 
+Step 4: Run the django development server in a separate terminal
+        py manage.py runserver 
+
+
+ 
