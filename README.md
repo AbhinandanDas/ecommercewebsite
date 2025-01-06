@@ -1,8 +1,4 @@
-Project Augustus - Ecommerce Web App using Python's Django Framework
-Tech Stack: 
-Frontend: Django Template Language (DTL)  primarily used for rendering dynamic HTML content in the frontend by integrating data passed from Django views.
-Backend: Django REST APIs without DRF -- plan to migrate to Django REST Framework(DRF) in future build. 
-Database: SQLite --Default database --plan to migrate to PostgreSQL in future build. 
+Project Augustus - Django Web App
 
 Features: 
 User Before Login
